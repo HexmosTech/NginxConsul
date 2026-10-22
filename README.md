@@ -102,6 +102,44 @@ dist/nginx-1.30.6-consul-ubuntu22.04.tar.gz.sha256
 Build on the **oldest** target release. A binary built against a newer glibc
 can fail on an older host.
 
+## Release
+
+A tag that matches `v*` builds the artifact on Ubuntu 22.04 and publishes a
+GitHub Release. The release contains:
+
+- `nginx-<version>-consul-ubuntu22.04.tar.gz`
+- `nginx-<version>-consul-ubuntu22.04.tar.gz.sha256`
+
+The release asset is permanent and versioned by the tag. It is not the
+temporary workflow artifact.
+
+Download URL:
+
+```text
+https://github.com/OWNER/NginxConsul/releases/download/v<version>/nginx-<version>-consul-ubuntu22.04.tar.gz
+```
+
+Ansible example:
+
+```yaml
+- name: Download the nginx artifact and checksum
+  get_url:
+    url: "https://github.com/OWNER/NginxConsul/releases/download/v{{ nginx_version }}/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: "0644"
+  loop:
+    - "nginx-{{ nginx_version }}-consul-ubuntu22.04.tar.gz"
+    - "nginx-{{ nginx_version }}-consul-ubuntu22.04.tar.gz.sha256"
+
+- name: Verify the artifact
+  command: "sha256sum -c nginx-{{ nginx_version }}-consul-ubuntu22.04.tar.gz.sha256"
+  args:
+    chdir: /tmp
+```
+
+Replace `OWNER` with the repository owner. Do not use the `latest` URL because
+the asset name contains the version.
+
 ## Install
 
 Installation is handled by your deployment tooling. The order is:
