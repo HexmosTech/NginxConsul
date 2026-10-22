@@ -1,0 +1,22 @@
+This repository builds and redistributes third-party software.
+
+nginx
+  License: BSD-2-Clause
+  Source:  https://nginx.org/
+  Note:    Downloaded at build time from nginx.org and verified by SHA-256.
+
+ngx_http_consul_backend_module
+  License: MPL-2.0
+  Source:  https://github.com/hashicorp/ngx_http_consul_backend_module
+  Commit:  d8c57c2a4ee152f2b2d98b4dcd7850661ef96c5c
+  Note:    Vendored unmodified under third_party/. The patches in patches/
+           are applied at build time. The modified source is this repository
+           plus those patches.
+
+ngx_devel_kit (NDK)
+  License: BSD-3-Clause
+  Source:  https://github.com/simpl/ngx_devel_kit
+  Note:    Downloaded at build time and verified by SHA-256.
+
+The Ansible inventory, secrets, and site configuration are not part of this
+repository.

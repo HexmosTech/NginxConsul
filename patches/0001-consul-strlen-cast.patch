@@ -1,0 +1,11 @@
+--- a/src/ngx_http_consul_backend_module.c
++++ b/src/ngx_http_consul_backend_module.c
+@@ -59,7 +59,7 @@
+   u_char* (*fun)(u_char *) = (u_char* (*)(u_char *)) dlsym(go_module, "LookupBackend");
+   u_char* backend = fun(v->data);
+ 
+-  ngx_str_t ngx_backend = { strlen(backend), backend };
++  ngx_str_t ngx_backend = { strlen((const char*)backend), backend };
+ 
+   res->data = ngx_palloc(r->pool, ngx_backend.len);
+   if (res->data == NULL) {

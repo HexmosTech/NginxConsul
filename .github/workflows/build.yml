@@ -1,0 +1,50 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.x"
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpcre3-dev zlib1g-dev libssl-dev
+
+      - name: Build
+        run: ./build.sh --ci
+
+      - name: Smoke test
+        run: ./test/smoke.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nginxconsul
+          path: dist/*
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: nginxconsul
+          path: dist
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
