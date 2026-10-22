@@ -110,6 +110,9 @@ GitHub Release. The release contains:
 - `nginx-<version>-consul-ubuntu22.04.tar.gz`
 - `nginx-<version>-consul-ubuntu22.04.tar.gz.sha256`
 
+The tag must match `NGINX_VERSION` in `versions.env`. For nginx 1.30.6, the
+tag is `v1.30.6`. The workflow rejects a mismatched tag.
+
 The release asset is permanent and versioned by the tag. It is not the
 temporary workflow artifact.
 
